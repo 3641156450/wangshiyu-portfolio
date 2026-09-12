@@ -232,6 +232,9 @@ input,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .preview-frame iframe{width:100%;height:340px;border:0;display:block}
 .code-note{font-size:12.5px;color:var(--muted);margin:6px 0 12px}
 .btn-sm{padding:6px 12px;font-size:13px;border-radius:8px}
+.proj-actions{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+.proj-actions .btn{flex:1;min-width:110px}
+@media(max-width:640px){.proj-actions .btn{padding:10px 14px;min-height:44px}}
 .modal-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
 .modal-metrics .m{background:var(--bg);border-radius:10px;padding:12px;text-align:center}
 .modal-metrics .m b{display:block;font-family:var(--mono);font-size:20px;color:var(--ink-900)}
@@ -545,6 +548,21 @@ pre.code .tk-t{color:#7FC1FF}
             <p>上传照片拖动缩放选好构图，自动生成一寸 / 二寸证件照，5 寸画布实时排版（一寸 9 张 / 二寸 4 张）并下载。</p>
           </div>
         </article>
+        <article class="proj-card" data-link="https://3641156450.github.io/mygo-fnaf-game/">
+          <div class="proj-thumb">
+            <img src="assets/mygo-home.jpg" alt="MyGO-FNAF 独立同人游戏封面" loading="lazy">
+            <div class="overlay"><span>打开网页版游戏</span></div>
+          </div>
+          <div class="proj-body">
+            <div class="tags"><span class="tag">Python 游戏开发</span><span class="tag green">独立同人</span></div>
+            <h3>MyGO-FNAF 独立同人游戏</h3>
+            <p>独立制作的同人游戏：点击进入网页版直接游玩，也可下载 Windows 游戏包离线游玩。</p>
+            <div class="proj-actions">
+              <a class="btn btn-sm btn-dark" href="https://3641156450.github.io/mygo-fnaf-game/" target="_blank" rel="noopener">网页版游玩</a>
+              <a class="btn btn-sm btn-primary" href="assets/MyGO-FNAF.zip" download>下载游戏包</a>
+            </div>
+          </div>
+        </article>
       </div>
       <div style="text-align:center;margin-top:36px">
         <a class="btn btn-dark" href="#/projects">查看全部作品</a>
@@ -744,6 +762,21 @@ pre.code .tk-t{color:#7FC1FF}
             <div class="tags"><span class="tag">图像处理</span><span class="tag green">前端工具</span></div>
             <h3>证件照自动裁剪与 5 寸排版工具</h3>
             <p>上传照片拖动缩放选好构图，自动生成一寸 / 二寸证件照，5 寸画布实时排版（一寸 9 张 / 二寸 4 张）并下载。</p>
+          </div>
+        </article>
+        <article class="proj-card" data-link="https://3641156450.github.io/mygo-fnaf-game/">
+          <div class="proj-thumb">
+            <img src="assets/mygo-home.jpg" alt="MyGO-FNAF 独立同人游戏封面" loading="lazy">
+            <div class="overlay"><span>打开网页版游戏</span></div>
+          </div>
+          <div class="proj-body">
+            <div class="tags"><span class="tag">Python 游戏开发</span><span class="tag green">独立同人</span></div>
+            <h3>MyGO-FNAF 独立同人游戏</h3>
+            <p>独立制作的同人游戏：点击进入网页版直接游玩，也可下载 Windows 游戏包离线游玩。</p>
+            <div class="proj-actions">
+              <a class="btn btn-sm btn-dark" href="https://3641156450.github.io/mygo-fnaf-game/" target="_blank" rel="noopener">网页版游玩</a>
+              <a class="btn btn-sm btn-primary" href="assets/MyGO-FNAF.zip" download>下载游戏包</a>
+            </div>
           </div>
         </article>
       </div>
@@ -1380,7 +1413,13 @@ window.addEventListener(<span class="tk-s">"resize"</span>, fitMap); <span class
   }
   document.addEventListener("click", function(e){
     var linker = e.target.closest("[data-link]");
-    if (linker){ location.hash = linker.getAttribute("data-link"); closeNav(); return; }
+    if (linker){
+      if (e.target.closest("a[download]")) return;   // 下载按钮优先，不触发卡片跳转
+      var go = linker.getAttribute("data-link");
+      if (go.indexOf("http") === 0){ window.open(go, "_blank"); }   // 外链项目：新窗口打开
+      else { location.hash = go; }
+      closeNav(); return;
+    }
     var opener = e.target.closest("[data-open]");
     if (opener){ openModal(opener.getAttribute("data-open")); return; }
     if (e.target.closest("[data-close]")) closeModal();
